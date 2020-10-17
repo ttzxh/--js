@@ -322,23 +322,84 @@ class doubleLink{
         }
     }
 }
-let a = new doubleLink()
-//在尾部添加元素
-a.push("1")
-console.log(a.toString());//1
-//在头部添加元素
-a.unshift("2")
-console.log(a.toString());//2 1
-//在指定位置添加元素
-a.add("3",1)
-console.log(a.toString());//2 3 1
-a.pop()
-console.log(a.toString());// 2 3
-a.shift()
-console.log(a.toString());//3
-a.push("1")
-a.push("2")
-a.push("4")
-console.log(a.toString());//3 1 2 4
-console.log(a.find(2));//2
-console.log(a.local("1"));//[1]
+class CNode{
+    constructor(ele){
+        this.ele = ele
+        this.next = null
+    }
+}
+class CLink{
+    header = null
+    count = 0
+    //最后一个节点
+    pre = null
+    add(val,num){
+        let CN = new CNode(val)
+        if(this.header===null){
+            this.header = CN
+            this.header.next = CN
+            this.pre = CN
+        }
+        else if(num === 0){
+            let current = this.header
+            this.header = CN
+            this.header.next = current
+            this.pre.next = this.header
+        }else if(num === this.count){
+            this.pre.next = CN
+            this.pre = CN
+            this.pre.next = this.header
+        }
+        else{
+            let currentCount = 0
+            let current = this.header
+            while(currentCount<num){
+                this.pre = current
+                current = current.next
+                currentCount++
+            }
+            this.pre.next = CN
+            CN.next = current
+        }
+        this.count++
+    }
+    del(num){
+        if(num === 0){
+            this.header = this.header.next
+            this.pre.next = this.header
+        }else if(num === this.count){
+            let currentCount = 0
+            let current = this.header
+            let preNode = null
+            while(currentCount<this.count){
+                preNode = current
+                current = current.next
+                this.currentCount++
+            }
+            this.pre = preNode
+            this.pre = this.header
+        }else{
+            let currentCount = 0
+            let current = this.header
+            let preNode = null
+            while(currentCount<num){
+                preNode = current
+                current = current.next
+                currentCount++
+            }
+            preNode.next = current.next
+        }
+        this.count--
+    }
+    toString(){
+        let current = this.header
+        let currentCount = 0
+        let str = ""
+        while(currentCount<this.count){
+            str+=current.ele+" "
+            current = current.next
+            currentCount++
+        }
+        return str
+    }
+}
